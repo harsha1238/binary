@@ -74252,7 +74252,7 @@ let AUG_07_SEP_07_CANDLES=[
 ]
 export let JUL_31_29_AUG_1_MIN={
     "candles": [
-        ...JUL_07_SEP_07_CANDLES,
+        ...AUG_07_SEP_07_CANDLES,
         [
             "2023-07-31T09:15:00+0530",
             1650.05,
