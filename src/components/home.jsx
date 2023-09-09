@@ -13,9 +13,10 @@ import { DATA_1_HR } from "../assets/1hr";
 
 const Home=()=>{
     const[decimal,setDecimal]=useState([]);
-    const [count, setCount] = useState([]);
+    const[count, setCount] = useState([]);
     const[time,setTime]=useState(DATA_1_MIN)
-    const[date,setDate]=useState()
+    const [date, setDate] = useState();
+    
 const handleChange=useCallback((value,tempTime=time)=>{
 let temp =formJsonObj(tempTime);
 
@@ -102,9 +103,12 @@ let count=res.map((item,index)=>{
     Object.entries(count)?.map((item)=>{
         return <span key={Math.random()}><span style={{color:"red"}}>{item[0]}</span>{`=${item[1]}    `}</span>
     })}</div>
+        
         {decimal ? <span> Sum : {decimal?.reduce((t, i) => t + i, 0)}{`  `}</span> : ""}
+        <hr></hr>
         {decimal ? <span> Max : {decimal.length * 7}{`  `}</span> : ""}
-        {decimal ? <span> Gain : {(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%{`  `}</span>:""}
+        <hr></hr>
+        {decimal ? <span> Gain : {(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%{`  `}</span> : ""}
     </> 
 }
 
