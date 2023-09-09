@@ -106,8 +106,6 @@ let count=res.map((item,index)=>{
         
         {decimal ? <span> Sum : {decimal?.reduce((t, i) => t + i, 0)}{`  `}</span> : ""}
         <hr></hr>
-        {decimal ? <span> Max : {decimal.length * 7}{`  `}</span> : ""}
-        <hr></hr>
         {decimal ? <span> Gain : {(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%{`  `}</span> : ""}
     </> 
 }
