@@ -28,3 +28,17 @@ export const formBinaryArray=(jsonData,date)=>{
     })
     return arr;
 }
+
+export const removeDuplicates=(data)=>{
+    let tempArr=[];
+    let dataArray=[]
+    data.map((item)=>{
+        if(!tempArr.includes(item.date))
+        {
+            tempArr.push(item.date);
+            dataArray.push(item)
+        }
+    })
+
+    return dataArray
+}
