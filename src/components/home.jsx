@@ -17,6 +17,7 @@ const Home=()=>{
     const[count, setCount] = useState([]);
     const[time,setTime]=useState(DATA_1_MIN)
     const [date, setDate] = useState();
+    const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
     
 const handleChange=useCallback((value,tempTime=time)=>{
 let temp =formJsonObj(tempTime);
@@ -24,8 +25,6 @@ let temp =formJsonObj(tempTime);
 setDate(value)
 let data =formBinaryArray(temp,value)
 console.log(data)
-let rawData= data;
-let arr = rawData[0]?.data
 let res=data?.map((item,index)=>{
             if(index%3==0)
         {
@@ -81,9 +80,9 @@ let count=res.map((item,index)=>{
         setTime(value)
         handleChange(date,value)
     }
-    return<>
-    <input type="date" onChange={(e)=>handleChange(e.target.value)}/>
-        <select onChange={(e)=>handleTime(e)}>
+    return <>
+    <input className="date-input" type="date" onChange={(e)=>handleChange(e.target.value)}/>
+    <select className="select" onChange={(e)=>handleTime(e)}>
              <option value={"1min"}>1 MIN</option>
              <option value={"2min"}>2 MIN</option>
              <option value={"3min"}>3 MIN</option>
@@ -93,31 +92,38 @@ let count=res.map((item,index)=>{
              <option value={"30min"}>30 MIN</option>
              <option value={"1hr"}>1 Hr</option>
    </select>
-    <hr></hr>
-    <div className="box">
-        {decimal?.map((item,index)=>{
-            return <div className={[3,5,6,7].includes(item)?"box-green":"box-red"} key={Math.random()}>{item}</div>
-        })}
-    </div>
-    <br/>
-    <div style={{display:"flex"}}><span style={{border:"1px solid grey",padding:"10px"}}>{
-    Object.entries(count)?.map((item)=>{
-        return <li style={{listStyle:"none"}} key={Math.random()}><span style={{color:"red"}}>{item[0]}</span>{`=${item[1]}    `}</li>
-    })}</span>
-            <span>
-                <table className="table">
+        <hr></hr>
+        {decimal.length?<div>
+            <div className="box">
+                {decimal?.map((item, index) => {
+                    return <div className={[3, 5, 6, 7].includes(item) ? "box-green" : "box-red"} key={Math.random()}>{item}</div>
+                })}
+            </div>
+            <br />
+            <div style={{ display: "flex" }}><span style={{ border: "1px solid grey", padding: "10px" }}>{
+                Object.entries(count)?.map((item) => {
+                    return <li style={{ listStyle: "none" }} key={Math.random()}><span style={{ color: "red" }}>{item[0]}</span>{`=${item[1]}    `}</li>
+                })}</span>
+                <span>
+                    <table className="table">
                     
-                 {/* <tr className="tr"><td className="td">Sum</td><td className="td">{decimal?.reduce((t, i) => t + i, 0)}</td></tr> */}
-                    <tr className="tr">
-                        <td className="td">Gain</td>
-                        <td className="td">{(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%</td>
-                    </tr>
-                    <tr className="tr"><td className="td">Result</td><td className={getResult(date)>0?"td-green":"td-red"}>{getResult(date)?.toString()?.slice(0,4) }%</td></tr>
-                </table>
-            </span>
-        </div>
-        <br/>
-        
+                        {/* <tr className="tr"><td className="td">Sum</td><td className="td">{decimal?.reduce((t, i) => t + i, 0)}</td></tr> */}
+                        <tr className="tr">
+                            <td className="td">Gain</td>
+                            <td className="td">{(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%</td>
+                        </tr>
+                        <tr className="tr"><td className="td">Result</td><td className={getResult(date) > 0 ? "td-green" : "td-red"}>{getResult(date)?.toString()?.slice(0, 4)}%</td></tr>
+                    </table>
+                </span>
+            </div>
+            <br />
+            <div>
+                <h4 style={{marginBottom:"10px"}}>Notes:</h4>
+                <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
+
+                </textarea>
+            </div>
+        </div>:<h3>No Data Found</h3>}
     </> 
 }
 
