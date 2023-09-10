@@ -1,3 +1,5 @@
+import { DAILY } from "../assets/daily";
+
 export const formJsonObj=(rawData)=>{
 
     return rawData.candles.map((item,index)=>{
@@ -29,6 +31,16 @@ export const formBinaryArray=(jsonData,date)=>{
     return arr;
 }
 
+export const getResult = (date) => {
+    let result =0
+    DAILY.candles.map((item,index) => {
+        if (item[0]?.includes(date))
+        {
+            result = ((item[4])-(DAILY.candles[index-1]?.[4]))/(DAILY.candles[index-1]?.[4])
+        }
+    })
+    return result * 100;
+}
 export const removeDuplicates=(data)=>{
     let tempArr=[];
     let dataArray=[]

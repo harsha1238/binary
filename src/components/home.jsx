@@ -1,7 +1,7 @@
 import {data} from "../assets/data"
 import {useCallback, useState} from "react";
 import '../App.css'
-import {formJsonObj,formBinaryArray,removeDuplicates} from "../helpers/helper"
+import {formJsonObj,formBinaryArray,removeDuplicates,getResult} from "../helpers/helper"
 import { DATA_1_MIN } from "../assets/1min";
 import { DATA_2_MIN } from "../assets/2min";
 import { DATA_3_MIN } from "../assets/3min";
@@ -10,6 +10,7 @@ import { DATA_10_MIN } from "../assets/10min";
 import { DATA_15_MIN } from "../assets/15min";
 import { DATA_30_MIN } from "../assets/30min";
 import { DATA_1_HR } from "../assets/1hr";
+import { DAILY } from "../assets/daily";
 
 const Home=()=>{
     const[decimal,setDecimal]=useState([]);
@@ -98,15 +99,25 @@ let count=res.map((item,index)=>{
             return <div className={[3,5,6,7].includes(item)?"box-green":"box-red"} key={Math.random()}>{item}</div>
         })}
     </div>
-    
-    <div>{
+    <br/>
+    <div style={{display:"flex"}}><span style={{border:"1px solid grey",padding:"10px"}}>{
     Object.entries(count)?.map((item)=>{
-        return <span key={Math.random()}><span style={{color:"red"}}>{item[0]}</span>{`=${item[1]}    `}</span>
-    })}</div>
+        return <li style={{listStyle:"none"}} key={Math.random()}><span style={{color:"red"}}>{item[0]}</span>{`=${item[1]}    `}</li>
+    })}</span>
+            <span>
+                <table className="table">
+                    
+                 {/* <tr className="tr"><td className="td">Sum</td><td className="td">{decimal?.reduce((t, i) => t + i, 0)}</td></tr> */}
+                    <tr className="tr">
+                        <td className="td">Gain</td>
+                        <td className="td">{(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%</td>
+                    </tr>
+                    <tr className="tr"><td className="td">Result</td><td className={getResult(date)>0?"td-green":"td-red"}>{getResult(date)?.toString()?.slice(0,4) }%</td></tr>
+                </table>
+            </span>
+        </div>
+        <br/>
         
-        {decimal ? <span> Sum : {decimal?.reduce((t, i) => t + i, 0)}{`  `}</span> : ""}
-        <hr></hr>
-        {decimal ? <span> Gain : {(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%{`  `}</span> : ""}
     </> 
 }
 
