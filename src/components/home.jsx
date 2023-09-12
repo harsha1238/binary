@@ -1,6 +1,6 @@
 import {data} from "../assets/data"
 import { useCallback, useState } from "react";
-import CanvasJSReact from '@canvasjs/react-charts';
+//import CanvasJSReact from '@canvasjs/react-charts';
 import '../App.css'
 import {formJsonObj,formBinaryArray,dataForChart,getResult} from "../helpers/helper"
 import{OPTION_FOR_CHART} from "../assets/contants"
@@ -148,7 +148,7 @@ let count=res.map((item,index)=>{
             </div>
             <br />
             <div>
-                <CanvasJSReact.CanvasJSChart  options={options}/>
+               // <CanvasJSReact.CanvasJSChart  options={options}/>
                 <h4 style={{marginBottom:"10px"}}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 
