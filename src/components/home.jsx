@@ -1,7 +1,9 @@
 import {data} from "../assets/data"
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
+import CanvasJSReact from '@canvasjs/react-charts';
 import '../App.css'
-import {formJsonObj,formBinaryArray,removeDuplicates,getResult} from "../helpers/helper"
+import {formJsonObj,formBinaryArray,dataForChart,getResult} from "../helpers/helper"
+import{OPTION_FOR_CHART} from "../assets/contants"
 import { DATA_1_MIN } from "../assets/1min";
 import { DATA_2_MIN } from "../assets/2min";
 import { DATA_3_MIN } from "../assets/3min";
@@ -34,6 +36,7 @@ let res=data?.map((item,index)=>{
     return ((item[0]!==undefined?item[0]:0)*4)+((item[1]!==undefined?item[1]:0)*2)+((item[2]!==undefined?item[2]:0)*1)
     })
     setDecimal(res);
+    
 let obj ={};
 let count=res.map((item,index)=>{
         if(!obj.hasOwnProperty(item))
@@ -80,6 +83,32 @@ let count=res.map((item,index)=>{
         setTime(value)
         handleChange(date,value)
     }
+    const options = {
+			theme: "light1", // "light1", "light2", "dark1", "dark2"
+			animationEnabled: true,
+			exportEnabled: true,
+			title:{
+				text: "HDFC BANK"
+			},
+			axisX: {
+				valueFormatString: "HH:mm:ss"
+			},
+			axisY: {
+				prefix: "Rs.",
+				title: "Price (in INR)"
+			},
+			data: [{
+				type: "candlestick",
+                showInLegend: true,
+                risingColor: "green",
+                fallingColor:"red",
+				name: "Intel Corporation",
+				yValueFormatString: "$###0.00",
+				xValueFormatString: "MMMM YY",
+				dataPoints: dataForChart(time,date)
+			}
+		  ]
+		}
     return <>
     <input className="date-input" type="date" onChange={(e)=>handleChange(e.target.value)}/>
     <select className="select" onChange={(e)=>handleTime(e)}>
@@ -115,9 +144,11 @@ let count=res.map((item,index)=>{
                         <tr className="tr"><td className="td">Result</td><td className={getResult(date) > 0 ? "td-green" : "td-red"}>{getResult(date)?.toString()?.slice(0, 4)}%</td></tr>
                     </table>
                 </span>
+                
             </div>
             <br />
             <div>
+                <CanvasJSReact.CanvasJSChart  options={options}/>
                 <h4 style={{marginBottom:"10px"}}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 

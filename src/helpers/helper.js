@@ -33,7 +33,7 @@ export const formBinaryArray=(jsonData,date)=>{
 
 export const getResult = (date) => {
     let result =0
-    DAILY.candles.map((item,index) => {
+    DAILY.candles.sort().map((item,index) => {
         if (item[0]?.includes(date))
         {
             result = ((item[4])-(DAILY.candles[index-1]?.[4]))/(DAILY.candles[index-1]?.[4])
@@ -53,4 +53,16 @@ export const removeDuplicates=(data)=>{
     })
 
     return dataArray
+}
+
+export const dataForChart = (arr, date) => {
+    let result =[]
+    arr.candles.map((item, index) => {
+        if (item[0]?.includes(date))
+        {
+            result.push({x: new Date(item[0]),
+            y: [...item.slice(1,5)]})
+            }
+    })
+    return result;
 }
