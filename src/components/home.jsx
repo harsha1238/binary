@@ -1,6 +1,6 @@
 import {data} from "../assets/data"
 import { useCallback, useState } from "react";
-import CanvasJSReact from '@canvasjs/react-charts';
+// import { Chart } from "./chart";
 import '../App.css'
 import {formJsonObj,formBinaryArray,dataForChart,getResult} from "../helpers/helper"
 import{OPTION_FOR_CHART} from "../assets/contants"
@@ -83,32 +83,8 @@ let count=res.map((item,index)=>{
         setTime(value)
         handleChange(date,value)
     }
-    const options = {
-			theme: "light1", // "light1", "light2", "dark1", "dark2"
-			animationEnabled: true,
-			exportEnabled: true,
-			title:{
-				text: "HDFC BANK"
-			},
-			axisX: {
-				valueFormatString: "HH:mm:ss"
-			},
-			axisY: {
-				prefix: "Rs.",
-				title: "Price (in INR)"
-			},
-			data: [{
-				type: "candlestick",
-                showInLegend: true,
-                risingColor: "green",
-                fallingColor:"red",
-				name: "Intel Corporation",
-				yValueFormatString: "$###0.00",
-				xValueFormatString: "MMMM YY",
-				dataPoints: dataForChart(time,date)
-			}
-		  ]
-		}
+  
+  
     return <>
     <input className="date-input" type="date" onChange={(e)=>handleChange(e.target.value)}/>
     <select className="select" onChange={(e)=>handleTime(e)}>
@@ -148,7 +124,7 @@ let count=res.map((item,index)=>{
             </div>
             <br />
             <div>
-                <CanvasJSReact.CanvasJSChart  options={options}/>
+                 
                 <h4 style={{marginBottom:"10px"}}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 

@@ -60,8 +60,7 @@ export const dataForChart = (arr, date) => {
     arr.candles.map((item, index) => {
         if (item[0]?.includes(date))
         {
-            result.push({x: new Date(item[0]),
-            y: [...item.slice(1,5)]})
+            result.push([new Date(item[0],item[3],item[1],item[4],item[2])])
             }
     })
     return result;
