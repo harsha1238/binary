@@ -13,6 +13,7 @@ import { DATA_15_MIN } from "../assets/15min";
 import { DATA_30_MIN } from "../assets/30min";
 import { DATA_1_HR } from "../assets/1hr";
 import { DAILY } from "../assets/daily";
+import moment from "moment/moment";
 
 const Home=()=>{
     const[decimal,setDecimal]=useState([]);
@@ -20,7 +21,7 @@ const Home=()=>{
     const[time,setTime]=useState(DATA_1_MIN)
     const [date, setDate] = useState();
     const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
-    
+    const [boxTime,setBoxTime]=useState(0)
 const handleChange=useCallback((value,tempTime=time)=>{
 let temp =formJsonObj(tempTime);
 
@@ -84,9 +85,22 @@ let count=res.map((item,index)=>{
         handleChange(date,value)
     }
   
-  
+    const displayTime = (boxTime) => {
+        let d1 = new Date(date + " 9:15");
+        let d2 = new Date(d1);
+        d2.setMinutes(d1.getMinutes() + boxTime);
+        return d2?.toLocaleString().slice(9)
+        
+    }
+    const easyComp=()=>( <h3><h3 className="easy-button" onClick={() => {
+                    setDate(moment(date).add(-1,"days").format("YYYY-MM-DD"))
+                    handleChange(moment(date).add(-1,"days").format("YYYY-MM-DD"))
+                }}>{`<`}</h3><h3 onClick={() => {
+                        setDate(moment(date).add(-1,"days").format("YYYY-MM-DD"))
+                    handleChange(moment(date).add(1,"days").format("YYYY-MM-DD"))
+                }} className="easy-button">{ `>`}</h3></h3>)
     return <>
-    <input className="date-input" type="date" onChange={(e)=>handleChange(e.target.value)}/>
+    <input className="date-input" type="date" value={date} onChange={(e)=>handleChange(e.target.value)}/>
     <select className="select" onChange={(e)=>handleTime(e)}>
              <option value={"1min"}>1 MIN</option>
              <option value={"2min"}>2 MIN</option>
@@ -101,9 +115,10 @@ let count=res.map((item,index)=>{
         {decimal.length?<div>
             <div className="box">
                 {decimal?.map((item, index) => {
-                    return <div className={[3, 5, 6, 7].includes(item) ? "box-green" : "box-red"} key={Math.random()}>{item}</div>
+                    return <div onMouseEnter={()=>{setBoxTime((375/decimal.length)*index)}}  className={[3, 5, 6, 7].includes(item) ? "box-green" : "box-red"} key={Math.random()}>{item}<span className="time"></span></div>
                 })}
             </div>
+            { <div>{`Time: ${displayTime(boxTime)} to ${displayTime(boxTime + (375 / decimal.length))}`}</div>}
             <br />
             <div style={{ display: "flex" }}><span style={{ border: "1px solid grey", padding: "10px" }}>{
                 Object.entries(count)?.map((item) => {
@@ -112,7 +127,7 @@ let count=res.map((item,index)=>{
                 <span>
                     <table className="table">
                     
-                        {/* <tr className="tr"><td className="td">Sum</td><td className="td">{decimal?.reduce((t, i) => t + i, 0)}</td></tr> */}
+                        <tr className="tr"><td className="td">Sum</td><td className="td">{decimal?.reduce((t, i) => t + i, 0)}</td></tr>
                         <tr className="tr">
                             <td className="td">Gain</td>
                             <td className="td">{(decimal?.reduce((t, i) => t + i, 0) / (decimal.length * 7) * 100).toString().slice(0, 4)}%</td>
@@ -124,13 +139,15 @@ let count=res.map((item,index)=>{
             </div>
             <br />
             <div>
-                 
+               {easyComp()}
                 <h4 style={{marginBottom:"10px"}}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 
                 </textarea>
             </div>
-        </div>:<h3>No Data Found</h3>}
+        </div> : <><h3>No Data Found</h3>
+                {easyComp()}
+        </>}
     </> 
 }
 

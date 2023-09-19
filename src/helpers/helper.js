@@ -1,8 +1,8 @@
 import { DAILY } from "../assets/daily";
 
 export const formJsonObj=(rawData)=>{
-
-    return rawData.candles.map((item,index)=>{
+let sortedData= sortByDate(rawData.candles)
+    return sortedData.map((item,index)=>{
         let binary =index!=0 && ((rawData.candles[index][4]-rawData.candles[index-1][4])*100/(rawData.candles[index-1][4]))>0?1:0;
 
         let obj={
@@ -63,5 +63,15 @@ export const dataForChart = (arr, date) => {
             result.push([new Date(item[0],item[3],item[1],item[4],item[2])])
             }
     })
+    return result;
+}
+
+export const sortByDate = (date) => {
+
+    let result = date.sort((a, b) => {
+
+        return new Date(a.date)-new Date(b.date)
+    })
+    console.log(result)
     return result;
 }
