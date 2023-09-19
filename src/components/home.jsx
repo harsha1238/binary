@@ -2,7 +2,7 @@ import {data} from "../assets/data"
 import { useCallback, useState } from "react";
 // import { Chart } from "./chart";
 import '../App.css'
-import {formJsonObj,formBinaryArray,dataForChart,getResult} from "../helpers/helper"
+import {formJsonObj,formBinaryArray,dataForChart,getResult,modifyDate} from "../helpers/helper"
 import{OPTION_FOR_CHART} from "../assets/contants"
 import { DATA_1_MIN } from "../assets/1min";
 import { DATA_2_MIN } from "../assets/2min";
@@ -13,7 +13,8 @@ import { DATA_15_MIN } from "../assets/15min";
 import { DATA_30_MIN } from "../assets/30min";
 import { DATA_1_HR } from "../assets/1hr";
 import { DAILY } from "../assets/daily";
-import moment from "moment/moment";
+
+
 
 const Home=()=>{
     const[decimal,setDecimal]=useState([]);
@@ -22,7 +23,7 @@ const Home=()=>{
     const [date, setDate] = useState();
     const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
     const [boxTime,setBoxTime]=useState(0)
-const handleChange=useCallback((value,tempTime=time)=>{
+    const handleChange = useCallback((value, tempTime = time) => {
 let temp =formJsonObj(tempTime);
 
 setDate(value)
@@ -92,12 +93,12 @@ let count=res.map((item,index)=>{
         return d2?.toLocaleString().slice(9)
         
     }
-    const easyComp=()=>( <h3><h3 className="easy-button" onClick={() => {
-                    setDate(moment(date).add(-1,"days").format("YYYY-MM-DD"))
-                    handleChange(moment(date).add(-1,"days").format("YYYY-MM-DD"))
+    const easyComp = () => (<h3><h3 className="easy-button" onClick={() => {
+        
+                    handleChange(modifyDate(date,-1))
                 }}>{`<`}</h3><h3 onClick={() => {
-                        setDate(moment(date).add(-1,"days").format("YYYY-MM-DD"))
-                    handleChange(moment(date).add(1,"days").format("YYYY-MM-DD"))
+                        
+                    handleChange(modifyDate(date,1))
                 }} className="easy-button">{ `>`}</h3></h3>)
     return <>
     <input className="date-input" type="date" value={date} onChange={(e)=>handleChange(e.target.value)}/>

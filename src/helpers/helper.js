@@ -75,3 +75,10 @@ export const sortByDate = (date) => {
     console.log(result)
     return result;
 }
+
+export const modifyDate = (date, value) => {
+    let temp = new Date(date);
+    temp.setDate(temp.getDate() + value);
+    return  temp.toISOString().slice(0,10)
+
+}
