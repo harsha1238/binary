@@ -147,7 +147,7 @@ let count=res.map((item,index)=>{
                 </textarea>
             </div>
         </div> : <><h3>No Data Found</h3>
-                <h3 style={{marginTop:"200px"}}>{easyComp()}</h3>
+                <h3 style={{marginTop:"250px"}}>{easyComp()}</h3>
         </>}
     </> 
 }
