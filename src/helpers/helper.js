@@ -82,3 +82,27 @@ export const modifyDate = (date, value) => {
     return  temp.toISOString().slice(0,10)
 
 }
+
+export const getPatternData = (tempTime) => {
+    let temp =formJsonObj(tempTime);
+    let resultArr = [];
+    temp.map((item, index) => {
+        let data =formBinaryArray(temp,item.date.slice(0,10))   
+       resultArr.push(data?.map((item,index)=>{
+            if(index%3==0)
+        {
+            return data?.slice(index,3+index)
+        }
+            }).filter((item)=>item).map((item,index)=>{
+                return ((item[0]!==undefined?item[0]:0)*4)+((item[1]!==undefined?item[1]:0)*2)+((item[2]!==undefined?item[2]:0)*1)
+            }))
+        
+    })
+    console.log(resultArr);
+
+        
+       
+    
+       
+    
+}

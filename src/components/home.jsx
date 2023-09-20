@@ -2,7 +2,7 @@ import {data} from "../assets/data"
 import { useCallback, useState } from "react";
 // import { Chart } from "./chart";
 import '../App.css'
-import {formJsonObj,formBinaryArray,dataForChart,getResult,modifyDate} from "../helpers/helper"
+import {formJsonObj,formBinaryArray,dataForChart,getResult,modifyDate,getPatternData} from "../helpers/helper"
 import{OPTION_FOR_CHART} from "../assets/contants"
 import { DATA_1_MIN } from "../assets/1min";
 import { DATA_2_MIN } from "../assets/2min";
@@ -22,32 +22,32 @@ const Home=()=>{
     const[time,setTime]=useState(DATA_1_MIN)
     const [date, setDate] = useState();
     const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
-    const [boxTime,setBoxTime]=useState(0)
+    const [boxTime, setBoxTime] = useState(0)
+    
     const handleChange = useCallback((value, tempTime = time) => {
-let temp =formJsonObj(tempTime);
-
-setDate(value)
-let data =formBinaryArray(temp,value)
-console.log(data)
-let res=data?.map((item,index)=>{
+            let temp =formJsonObj(tempTime);
+            setDate(value)
+            let data =formBinaryArray(temp,value)
+            console.log(data)
+        let res=data?.map((item,index)=>{
             if(index%3==0)
         {
             return data?.slice(index,3+index)
         }
-    }).filter((item)=>item).map((item,index)=>{
-    return ((item[0]!==undefined?item[0]:0)*4)+((item[1]!==undefined?item[1]:0)*2)+((item[2]!==undefined?item[2]:0)*1)
-    })
-    setDecimal(res);
+            }).filter((item)=>item).map((item,index)=>{
+                return ((item[0]!==undefined?item[0]:0)*4)+((item[1]!==undefined?item[1]:0)*2)+((item[2]!==undefined?item[2]:0)*1)
+            })
+        setDecimal(res);
     
-let obj ={};
-let count=res.map((item,index)=>{
-        if(!obj.hasOwnProperty(item))
-        {
-            obj[item]=1
-        }
-        else{
+        let obj ={};
+        let count=res.map((item,index)=>{
+            if(!obj.hasOwnProperty(item))
+            {
+                obj[item]=1
+            }
+            else    {
             obj[item]=obj[item]+1  
-        }
+            }
     })
     setCount(obj)
     },[time])
@@ -140,7 +140,8 @@ let count=res.map((item,index)=>{
             </div>
             <br />
             <div>
-               {easyComp()}
+                {easyComp()}
+                <input type="text" onChange={()=>{}}/>
                 <h4 style={{marginBottom:"10px"}}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 
