@@ -23,7 +23,7 @@ const Home=()=>{
     const [date, setDate] = useState();
     const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
     const [boxTime, setBoxTime] = useState(0)
-    
+    const [patternData,setPattern]=useState([])
     const handleChange = useCallback((value, tempTime = time) => {
             let temp =formJsonObj(tempTime);
             setDate(value)
@@ -100,9 +100,15 @@ const Home=()=>{
                         
                     handleChange(modifyDate(date,1))
                 }} className="easy-button">{ `>`}</h3></h3>)
+    
+    const handlePatterChange = (e) => {
+        let result = getPatternData(time, e.target.value);
+        setPattern(result)
+        
+    }
     return <>
-    <input className="date-input" type="date" value={date} onChange={(e)=>handleChange(e.target.value)}/>
-    <select className="select" onChange={(e)=>handleTime(e)}>
+        <input className="date-input" type="date" value={date} onChange={(e)=>handleChange(e.target.value)}/>
+            <select className="select" onChange={(e)=>handleTime(e)}>
              <option value={"1min"}>1 MIN</option>
              <option value={"2min"}>2 MIN</option>
              <option value={"3min"}>3 MIN</option>
@@ -140,9 +146,19 @@ const Home=()=>{
             </div>
             <br />
             <div>
-                {easyComp()}
-                <input type="text" onChange={()=>{}}/>
-                <h4 style={{marginBottom:"10px"}}>Notes:</h4>
+                <div className="pattern">
+                    <div>
+                   {easyComp()}
+               
+                  <span>Pattern : </span>  <input type="text" onChange={handlePatterChange} />
+                    </div>
+                    <div className="pattern-data">
+                        {patternData.length && patternData.map((item,index) => {
+                            return <div className="pattern-item">{` ${index}  .  `}<span style={{ marginRight: "15px" }}>{item.date}</span><span style={{display:"flex"}}>{item.binary.map((i) => <span className={[0,1,2,4].includes(i)?"box-red":"box-green"}>{i}</span>)}</span></div>
+               })}
+                    </div>
+                    </div>
+                    <h4 style={{ marginBottom: "10px" }}>Notes:</h4>
                 <textarea className="notes" value={notes} onChange={(e) => { localStorage.setItem("notes", JSON.stringify(e.target.value));setNotes(e.target.value) }}>
 
                 </textarea>

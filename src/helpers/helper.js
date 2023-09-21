@@ -83,23 +83,38 @@ export const modifyDate = (date, value) => {
 
 }
 
-export const getPatternData = (tempTime) => {
-    let temp =formJsonObj(tempTime);
+export const getPatternData = (tempTime,regexText) => {
+    let temp = formJsonObj(tempTime);
+    let tempData=[]
+     temp.map((item,
+        index) => {
+        if (!tempData.includes(item.date.slice(0,10)))
+        {
+            tempData.push( item.date.slice(0,10));
+            }
+        })
     let resultArr = [];
-    temp.map((item, index) => {
-        let data =formBinaryArray(temp,item.date.slice(0,10))   
-       resultArr.push(data?.map((item,index)=>{
+    tempData.map((item, index) => {
+        let data =formBinaryArray(temp,item)   
+       resultArr.push({binary :data?.map((item,index)=>{
             if(index%3==0)
         {
             return data?.slice(index,3+index)
         }
             }).filter((item)=>item).map((item,index)=>{
                 return ((item[0]!==undefined?item[0]:0)*4)+((item[1]!==undefined?item[1]:0)*2)+((item[2]!==undefined?item[2]:0)*1)
-            }))
+            }),date:item})
         
     })
-    console.log(resultArr);
-
+    let regex = new RegExp("^"+regexText)
+    let finalResult = resultArr.map((item) => {
+        if (regex.test(item.binary.join(""))) {
+            return item
+        }
+        
+    
+    }).filter((item)=>item);
+   return finalResult
         
        
     

@@ -85,6 +85,19 @@
 
 .easy-button{
   display: inline-block;
-  padding-right: 4rem;
+  padding-right: 2rem;
   margin-left: 2rem;
+}
+.pattern{
+  display: flex;
+}
+.pattern-data{
+  border: 1px solid black;
+  width:250px;
+  max-height:400px ;
+  overflow: scroll;
+}
+.pattern-item
+{
+  border-bottom: 1px solid gainsboro;
 }
