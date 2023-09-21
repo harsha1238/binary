@@ -154,7 +154,7 @@ const Home=()=>{
                     </div>
                     <div className="pattern-data">
                         {patternData.length && patternData.map((item,index) => {
-                            return <div className="pattern-item">{` ${index}  .  `}<span style={{ marginRight: "15px" }}>{item.date}</span><span style={{display:"flex"}}>{item.binary.map((i) => <span className={[0,1,2,4].includes(i)?"box-red":"box-green"}>{i}</span>)}</span></div>
+                            return <div onClick={()=>handleChange(item.date)} className="pattern-item">{` ${index}  .  `}<span style={{ marginRight: "15px" }}>{item.date}</span><span style={{display:"flex"}}>{item.binary.map((i) => <span className={[0,1,2,4].includes(i)?"box-red":"box-green"}>{i}</span>)}</span></div>
                })}
                     </div>
                     </div>
