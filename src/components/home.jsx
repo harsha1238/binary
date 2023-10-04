@@ -11,6 +11,7 @@ import { DATA_5_MIN } from "../assets/5min";
 import { DATA_10_MIN } from "../assets/10min";
 import { DATA_15_MIN } from "../assets/15min";
 import { DATA_30_MIN } from "../assets/30min";
+import { DATA_30_MIN_BANK_NIFTY } from "../assets/30minBankNifty";
 import { DATA_1_HR } from "../assets/1hr";
 import { DAILY } from "../assets/daily";
 
@@ -23,7 +24,8 @@ const Home=()=>{
     const [date, setDate] = useState();
     const [notes,setNotes]=useState(JSON.parse(localStorage.getItem("notes")))
     const [boxTime, setBoxTime] = useState(0)
-    const [patternData,setPattern]=useState([])
+    const [patternData, setPattern] = useState([]);
+    const [script,setScript]=useState("BANKNF")
     const handleChange = useCallback((value, tempTime = time) => {
             let temp =formJsonObj(tempTime);
             setDate(value)
@@ -74,7 +76,7 @@ const Home=()=>{
                 value=DATA_15_MIN
                 break;
             case "30min":
-                value=DATA_30_MIN
+                value=script=="HDFC"? DATA_30_MIN: DATA_30_MIN_BANK_NIFTY
                 break;
             case "1hr":
                 value=DATA_1_HR
@@ -117,7 +119,23 @@ const Home=()=>{
              <option value={"15min"}>15 MIN</option>
              <option value={"30min"}>30 MIN</option>
              <option value={"1hr"}>1 Hr</option>
-   </select>
+        </select>
+        <select className="select" onChange={(e) => {
+            if (e.target.value == "HDFC")
+            {
+                setTime(DATA_30_MIN);
+                setScript("HDFC");
+                handleChange(date,DATA_30_MIN)
+            }
+            else {
+                setTime(DATA_30_MIN_BANK_NIFTY)
+                setScript("BANKNF");
+                handleChange(date,DATA_30_MIN_BANK_NIFTY)
+            }
+        }}>
+            <option value="HDFC">HDFC</option>
+            <option value="BANKNF">BANK NIFTY</option>
+        </select>
         <hr></hr>
         {decimal.length?<div>
             <div className="box">
